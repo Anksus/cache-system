@@ -1,10 +1,12 @@
 package command
 
 import (
+	"anksus/cache-system/pkg"
 	"bufio"
 	"errors"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/urfave/cli/v2"
@@ -30,7 +32,7 @@ func StartCacheSystem(ctx *cli.Context) error {
 	limit, err := reader.ReadString('\n')
 	limit = limit[:len(limit)-1]
 
-	// 							limit = limit[:len(limit)-1]
+	limitInt, err := strconv.Atoi(limit)
 
 	if err != nil {
 		fmt.Println(err)
@@ -41,6 +43,9 @@ func StartCacheSystem(ctx *cli.Context) error {
 	fmt.Println("------------------------------------------------------")
 	fmt.Println()
 	fmt.Println()
+
+	cache := pkg.NewCache(limitInt, 0, selectedPolicy)
+
 	for {
 		fmt.Println("Enter key and value like this key:value")
 		input, err := reader.ReadString('\n')
